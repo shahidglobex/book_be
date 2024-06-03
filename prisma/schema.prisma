@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model roles {
+  id     Int      @id @default(autoincrement())
+  name   String   @unique()
+  label  String
+  level  Int
+  admins admins[]
+}
+
+model admins {
+  id         Int          @id @default(autoincrement())
+  user_name  String       @unique
+  email      String       @unique @db.VarChar(150)
+  password   String       @db.VarChar(200)
+  session    session?
+  role_id    Int
+  role       roles        @relation(fields: [role_id], references: [id])
+  created_at DateTime     @default(now())
+  user_books user_books[]
+}
+
+model session {
+  id                  Int     @id @default(autoincrement())
+  token               String? @unique
+  token_expires       String?
+  rfrsh_token         String? @unique
+  rfrsh_token_expires String?
+  ip                  String?
+  user_agent          String?
+  user_id             Int?    @unique
+  user                admins? @relation(fields: [user_id], references: [id])
+}
+
+model admin_books {
+  id         Int      @id @default(autoincrement())
+  TeamA      String
+  TeamB      String
+  Book       Json     @db.Json
+  is_active  Boolean  @default(true)
+  winner     String?
+  created_at DateTime @default(now())
+}
+
+model user_books {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  user       admins   @relation(fields: [user_id], references: [id])
+  TeamA      String
+  TeamB      String
+  Book       Json     @db.Json
+  created_at DateTime @default(now())
+}
