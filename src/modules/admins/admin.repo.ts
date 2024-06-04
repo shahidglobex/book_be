@@ -22,7 +22,7 @@ async function create(input: T_AdminIn & { parentId: number }) {
       user_name: input.user_name,
       password: input.password,
       email: input.email.trim(),
-      role_id: 2,
+      role_id: 1,
       created_at: new Date(),
     },
   }).executeTakeFirst();
