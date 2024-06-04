@@ -77,6 +77,7 @@ export const ZS_UpdateAdminBook = z.object({
   Book: z.object({
     teamA: z.array(z.number()),
     teamB: z.array(z.number()),
+    times: z.number().optional(),
   }),
 });
 
@@ -90,10 +91,18 @@ export const ZS_CreateUserBook = z.object({
 
 export const ZS_GetUserBook = z.object({
   id: z.number(),
+  TeamA: z.string().optional(),
+  TeamB: z.string().optional(),
   Book: z.object({
     teamA: z.array(z.number()),
     teamB: z.array(z.number()),
     times: z.number().optional(),
+    deltaA: z.number().optional(),
+    deltaB: z.number().optional(),
+    amount: z.number().optional(),
+    lagana: z.string().optional(),
+    team: z.string().optional(),
+    bhav: z.number().optional(),
   }),
 });
 
@@ -103,5 +112,11 @@ export const ZS_UpdateUserBook = z.object({
     teamA: z.array(z.number()).optional(),
     teamB: z.array(z.number()).optional(),
     times: z.number().optional(),
+    deltaA: z.number().optional(),
+    deltaB: z.number().optional(),
+    amount: z.number().optional(),
+    lagana: z.string().optional(),
+    team: z.string().optional(),
+    bhav: z.number().optional(),
   }),
 });

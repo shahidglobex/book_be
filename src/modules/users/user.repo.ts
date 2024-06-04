@@ -30,6 +30,7 @@ async function getUserBook(user_id: number) {
     .selectFrom("user_books")
     .selectAll()
     .where("user_books.user_id", "=", user_id)
+    .orderBy("id desc")
     .executeTakeFirst();
 }
 const UserRepo = {

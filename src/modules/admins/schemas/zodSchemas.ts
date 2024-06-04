@@ -6,6 +6,7 @@ import {
   RolesConst,
   UserStatusConst,
 } from "../../../constants";
+import { ZS_GetUserBook } from "../../users/schemas/zodSchemas";
 
 const AdminCore = {
   user_name: z.string(),
@@ -97,5 +98,5 @@ export const ZS_CreateUserBook = z.object({
 
 export const ZS_GetUsersWithAllBook = z.object({
   user: ZS_GetOneAdminRes,
-  books: ZS_CreateAdminBook.array(),
+  books: ZS_GetUserBook.array(),
 });

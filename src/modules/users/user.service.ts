@@ -28,5 +28,5 @@ export const updateUserBookService = async (input: {
 };
 
 export const getUserBookService = async (user_id: number) => {
-  return await UserRepo.getUserBook(2);
+  return await UserRepo.getUserBook(user_id);
 };
