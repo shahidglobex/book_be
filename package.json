@@ -1,8 +1,8 @@
 {
-  "name": "gateway_hub",
+  "name": "book_be",
   "version": "1.0.0",
-  "description": "gateway_hub build with fastify & mysql",
-  "main": "dist/app.js",
+  "description": "book_be build with fastify & mysql",
+  "main": "dist/src/app.js",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "npm run db:gen && tsc",
@@ -12,9 +12,9 @@
     "db:push": "npx prisma format && npx prisma db push && npm run db:gen",
     "db:seed": "npx prisma db seed",
     "prisma:pretty": "npx prisma format",
-    "start:init": "npm run build && pm2 start dist/app.js --name gateway_hub --log-date-format 'DD-MM HH:mm:ss'",
-    "start": "npm run build && node dist/app.js",
-    "start:prod": "npm run build && pm2 reload gateway_hub",
+    "start:init": "npm run build && pm2 start dist/src/app.js --name book_be --log-date-format 'DD-MM HH:mm:ss'",
+    "start": "npm run build && node dist/src/app.js",
+    "start:prod": "npm run build && pm2 reload book_be",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
