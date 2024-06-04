@@ -14,18 +14,41 @@ import {
 } from "./schemas/types";
 import { paginationResolver } from "../../utils/queryUtil";
 import { RequestUser } from "../auth/types";
+import { AppError } from "../../utils";
+import { AppErrors } from "../../lib/errors";
 
 async function create(input: T_AdminIn & { parentId: number }) {
+  const role = await kysely
+    .selectFrom("roles")
+    .selectAll()
+    .where("name", "=", RolesConst.Agent)
+    .executeTakeFirst();
+  if (!role) {
+    throw new AppError(AppErrors.NotFound, "Role not found");
+  }
   const user = await KyselyInsert(kysely, {
     table: "admins",
     values: {
       user_name: input.user_name,
       password: input.password,
       email: input.email.trim(),
-      role_id: 1,
+      role_id: role?.id,
       created_at: new Date(),
     },
   }).executeTakeFirst();
+  const adminBook = await getAdminBook();
+  if (user) {
+    const bookData = {
+      user_id: Number(user.insertId),
+      Book: JSON.stringify({
+        teamA: [0, 0, 0],
+        teamB: [0, 0, 0],
+      }),
+      TeamA: adminBook?.TeamA || "",
+      TeamB: adminBook?.TeamB || "",
+    };
+    await kysely.insertInto("user_books").values(bookData).execute();
+  }
 
   return user;
 }
