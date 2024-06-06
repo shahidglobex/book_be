@@ -5,6 +5,7 @@ import { getUserBookService, updateUserBookService } from "./user.service";
 export const updateUserBookHandler = async (
   req: FastifyRequest<{ Body: T_UpdateAdminBook }>
 ) => {
+  req.server.io.emit("updateUserBook");
   return await updateUserBookService({
     payload: req.body,
   });
