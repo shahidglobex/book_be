@@ -10,6 +10,7 @@ import {
   getManyAdminHandler,
   getUserBooksHandler,
   updateAdminBookHandler,
+  updateAdminHandler,
 } from "./admin.controller";
 import {
   CreateAdminBookSchema,
@@ -19,6 +20,7 @@ import {
   GetUserWithAllBooksSchema,
   GetUsersWithBookSchema,
   UpdateAdminBookSchema,
+  UpdateAdminSchema,
 } from "./schemas/jsonSchema";
 import { RolesConst } from "../../constants";
 
@@ -37,6 +39,13 @@ function adminRoutes(
     handler: createAdminHandler,
   });
 
+  app.route({
+    method: "PATCH",
+    url: "",
+    preHandler: app.guard.role(RolesConst.SuperAdmin),
+    schema: UpdateAdminSchema,
+    handler: updateAdminHandler,
+  });
   app.route({
     method: "GET",
     url: "",

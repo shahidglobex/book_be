@@ -3,6 +3,7 @@ import {
   T_CreateAdmin,
   T_CreateAdminBook,
   T_GetManyAdminQuery,
+  T_UpdateAdmin,
   T_UpdateAdminBook,
 } from "./schemas/types";
 import {
@@ -13,6 +14,7 @@ import {
   getUserAllBooks,
   getUserById,
   updateAdminBookService,
+  updateAdminService,
 } from "./admin.service";
 // import { WebSocket } from "ws";
 
@@ -75,4 +77,13 @@ export const getUserBooksHandler = async (
   const books = await getUserAllBooks({ userId: req.query.id });
   const user = await getUserById({ userId: req.query.id });
   return reply.send({ books, user });
+};
+
+export const updateAdminHandler = async (
+  req: FastifyRequest<{ Body: T_UpdateAdmin }>
+) => {
+  return await updateAdminService({
+    payload: req.body,
+    user: req.user,
+  });
 };

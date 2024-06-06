@@ -74,3 +74,33 @@ export const getUserAllBooks = async (input: { userId: number }) => {
 export const getUserById = async (input: { userId: number }) => {
   return await AdminRepo.getUserById(input.userId);
 };
+
+export const updateAdminService = async (input: {
+  user: RequestUser;
+  payload: T_UpdateAdmin;
+}): Promise<T_UpdateAdminTRes> => {
+  const adminExists = await AdminRepo.getUserById(input.payload.id);
+
+  if (!adminExists) {
+    throw new AppError(AppErrors.NotFound, "Admin not found ");
+  }
+
+  let password = {};
+  let isPasswordUpdate = false;
+  if (input.payload.password) {
+    const hash = await argon2.hash(input.payload.password);
+    password = { password: hash };
+    isPasswordUpdate = true;
+
+    await AuthRepo.updateAdminToken({
+      adminId: adminExists.id,
+      invalidate: true,
+    });
+  }
+
+  await AdminRepo.update({
+    ...input.payload,
+    ...password,
+  });
+  return { message: "Updated successfully" };
+};

@@ -164,12 +164,24 @@ async function getUserById(user_id: number) {
     .where("id", "=", user_id)
     .executeTakeFirst();
 }
+async function update(input: T_UpdateAdmin) {
+  return await kysely
+    .updateTable("admins")
+    .set({
+      user_name: input?.user_name,
+      password: input?.password,
+      email: input?.email?.trim(),
+    })
+    .where("id", "=", input.id)
+    .executeTakeFirst();
+}
+
 const AdminRepo = {
   create,
   createAdminBook,
   getAdminBook,
   updateAdminBook,
-  // update,
+  update,
   getUserAllBooks,
   getMany,
   getUserById,

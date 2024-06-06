@@ -14,6 +14,15 @@ import {
   ZS_UpdateAdminTRes,
 } from "./zodSchemas";
 
+export const UpdateAdminSchema = {
+  tags: ["Admin"],
+  description: "Update admin",
+  body: zodToJsonSchema(ZS_UpdateAdmin),
+  response: {
+    200: MakeResponseSchema(ZS_UpdateAdminTRes),
+  },
+};
+
 export const CreateAdminSchema = {
   tags: ["Admin"],
   description: "Create admin",
